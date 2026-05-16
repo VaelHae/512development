@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>512 Development — Roblox Scripting Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg0:#09090b;
+  --bg1:#0f0f11;
+  --bg2:#141416;
+  --bg3:#1a1a1d;
+  --gold:#c9a84c;
+  --gold-light:#e2c97e;
+  --gold-dim:#7a6330;
+  --gold-subtle:rgba(201,168,76,0.07);
+  --gold-border:rgba(201,168,76,0.18);
+  --gold-border-hover:rgba(201,168,76,0.45);
+  --text:#f0ece4;
+  --text-2:#9e9a93;
+  --text-3:#5a574f;
+  --line:rgba(255,255,255,0.06);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg0);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+nav{
+  padding:0 3rem;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line);
+  background:rgba(9,9,11,0.9);
+  backdrop-filter:blur(16px);
+  position:sticky;top:0;z-index:100;
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem;
+  font-weight:500;
+  letter-spacing:0.08em;
+  color:var(--gold-light);
+}
+.logo span{color:var(--text-3);font-weight:300}
+.nav-links{display:flex;gap:2.5rem;align-items:center}
+.nav-links a{
+  color:var(--text-2);
+  text-decoration:none;
+  font-size:0.82rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  transition:color 0.25s;
+}
+.nav-links a:hover{color:var(--gold-light)}
+.nav-cta{
+  padding:0.55rem 1.4rem;
+  border:1px solid var(--gold-border);
+  color:var(--gold-light);
+  background:transparent;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.78rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.25s;
+  text-decoration:none;
+  display:inline-block;
+}
+.nav-cta:hover{background:var(--gold-subtle);border-color:var(--gold-border-hover)}
+
+.hero{
+  min-height:92vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:4rem 2rem;
+  position:relative;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  width:700px;height:700px;
+  background:radial-gradient(ellipse, rgba(201,168,76,0.055) 0%, transparent 65%);
+  top:50%;left:50%;
+  transform:translate(-50%,-55%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-size:0.72rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:2rem;
+  opacity:0.8;
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:5.5rem;
+  font-weight:300;
+  line-height:1.05;
+  letter-spacing:-0.01em;
+  margin-bottom:1.5rem;
+  color:var(--text);
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--gold-light);
+}
+.hero-sub{
+  font-size:0.95rem;
+  color:var(--text-2);
+  max-width:480px;
+  margin:0 auto 3rem;
+  line-height:1.85;
+  font-weight:300;
+}
+.hero-actions{display:flex;gap:1.2rem;justify-content:center;align-items:center}
+.btn-gold{
+  padding:0.85rem 2.4rem;
+  background:var(--gold);
+  color:#0a0800;
+  border:none;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.8rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  font-weight:500;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
+.btn-ghost{
+  padding:0.85rem 2.4rem;
+  background:transparent;
+  color:var(--text-2);
+  border:1px solid var(--line);
+  font-family:'DM Sans',sans-serif;
+  font-size:0.8rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.btn-ghost:hover{border-color:var(--gold-border);color:var(--gold-light)}
+
+.divider{
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  opacity:0.4;
+  margin:0 3rem;
+}
+
+.services{padding:6rem 3rem;max-width:1300px;margin:0 auto}
+.section-label{
+  font-size:0.7rem;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:3rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--gold-border)}
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.service-item{
+  background:var(--bg0);
+  padding:2.5rem;
+  transition:background 0.3s;
+  position:relative;
+}
+.service-item:hover{background:var(--bg2)}
+.service-item:hover .service-icon{color:var(--gold-light)}
+.service-num{
+  font-family:'DM Mono',monospace;
+  font-size:0.7rem;
+  color:var(--text-3);
+  margin-bottom:1.5rem;
+  letter-spacing:0.1em;
+}
+.service-icon{
+  font-size:1.4rem;
+  color:var(--gold-dim);
+  margin-bottom:1rem;
+  display:block;
+  transition:color 0.3s;
+}
+.service-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;
+  font-weight:500;
+  color:var(--text);
+  margin-bottom:0.75rem;
+}
+.service-desc{font-size:0.85rem;color:var(--text-2);line-height:1.8;font-weight:300}
+
+.pricing{padding:6rem 3rem;max-width:1300px;margin:0 auto}
+.kit-block{margin-bottom:5rem}
+.kit-label{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  margin-bottom:2.5rem;
+}
+.kit-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;
+  font-weight:400;
+  color:var(--text);
+  letter-spacing:0.02em;
+}
+.kit-tag{
+  font-size:0.68rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid var(--gold-border);
+  padding:0.3rem 0.9rem;
+}
+.kit-divider{flex:1;height:1px;background:var(--line)}
+
+.tier-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.tier-card{
+  background:var(--bg1);
+  padding:2.5rem;
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.tier-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.tier-card:hover{background:var(--bg2)}
+.tier-card:hover::before{opacity:1}
+.tier-badge{
+  font-size:0.68rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:1.2rem;
+}
+.tier-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;
+  font-weight:300;
+  color:var(--text);
+  line-height:1;
+  margin-bottom:0.3rem;
+}
+.tier-price-sub{font-size:0.78rem;color:var(--text-3);margin-bottom:2rem;font-weight:300}
+.tier-sep{height:1px;background:var(--line);margin-bottom:1.5rem}
+.tier-features{list-style:none;margin-bottom:2rem}
+.tier-features li{
+  font-size:0.84rem;
+  color:var(--text-2);
+  padding:0.45rem 0;
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  font-weight:300;
+}
+.tier-features li::before{
+  content:'—';
+  color:var(--gold-dim);
+  font-size:0.75rem;
+  flex-shrink:0;
+}
+.tier-for{
+  margin-top:auto;
+  padding:1rem;
+  background:var(--gold-subtle);
+  border-left:2px solid var(--gold-dim);
+}
+.tier-for-label{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem}
+.tier-for-text{font-size:0.82rem;color:var(--text-2);font-weight:300}
+
+.addons{padding:0 3rem 6rem;max-width:1300px;margin:0 auto}
+.addon-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.addon-item{
+  background:var(--bg1);
+  padding:1.8rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+  transition:background 0.25s;
+}
+.addon-item:hover{background:var(--bg2)}
+.addon-name{font-size:0.84rem;color:var(--text-2);font-weight:300}
+.addon-price{
+  font-family:'DM Mono',monospace;
+  font-size:1rem;
+  color:var(--gold-light);
+}
+
+.tos{padding:0 3rem 6rem;max-width:1300px;margin:0 auto}
+.tos-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.tos-item{background:var(--bg1);padding:1.5rem 2rem;font-size:0.82rem;color:var(--text-2);font-weight:300;display:flex;align-items:flex-start;gap:1rem}
+.tos-item i{color:var(--gold-dim);font-size:1rem;flex-shrink:0;margin-top:2px}
+
+.cta-band{
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:5rem 3rem;
+  text-align:center;
+  position:relative;
+}
+.cta-band::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at center, rgba(201,168,76,0.04) 0%, transparent 65%);
+}
+.cta-band h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:3rem;
+  font-weight:300;
+  margin-bottom:1rem;
+  position:relative;
+}
+.cta-band h2 em{font-style:italic;color:var(--gold-light)}
+.cta-band p{color:var(--text-2);font-size:0.9rem;margin-bottom:2.5rem;position:relative;font-weight:300}
+.cta-band-actions{display:flex;gap:1rem;justify-content:center;position:relative}
+
+footer{
+  padding:2.5rem 3rem;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;
+  color:var(--gold);
+  letter-spacing:0.08em;
+}
+.footer-meta{font-size:0.75rem;color:var(--text-3);text-align:right;line-height:1.8}
+
+@media(max-width:900px){
+  .services-grid,.tier-grid,.tos-grid{grid-template-columns:1fr}
+  .addon-grid{grid-template-columns:repeat(2,1fr)}
+  nav{padding:0 1.5rem}
+  .hero h1{font-size:3rem}
+  .services,.pricing,.addons,.tos{padding-left:1.5rem;padding-right:1.5rem}
+  footer{flex-direction:column;gap:1rem;text-align:center}
+  .footer-meta{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">512 Development</div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+    <a class="nav-cta" href="#contact">Commission</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">Scripting Commission</p>
+  <h1>Systems Built for<br><em>Your World</em></h1>
+  <p class="hero-sub">Professional scripting, custom systems, and polished UI — from mountain expeditions to underground clubs, we script it all.</p>
+  <div class="hero-actions">
+    <button class="btn-gold" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">View Packages</button>
+    <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get in Touch</button>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="services" id="services">
+  <div class="section-label">What we build</div>
+  <div class="services-grid">
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <i class="ti ti-code service-icon"></i>
+      <div class="service-title">Advanced Scripting</div>
+      <p class="service-desc">Clean, optimized Lua built for performance and long-term maintainability across any game genre.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <i class="ti ti-layout service-icon"></i>
+      <div class="service-title">Custom UI / UX</div>
+      <p class="service-desc">Professional interfaces with smooth animations — responsive across all devices and screen sizes.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <i class="ti ti-components service-icon"></i>
+      <div class="service-title">Modular Frameworks</div>
+      <p class="service-desc">Scalable, reusable architecture that makes future updates and expansions effortless.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-num">04</div>
+      <i class="ti ti-device-mobile service-icon"></i>
+      <div class="service-title">Cross-Device Support</div>
+      <p class="service-desc">Flawless performance on mobile and desktop with fully adaptive controls and layout.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-num">05</div>
+      <i class="ti ti-database service-icon"></i>
+      <div class="service-title">Data Management</div>
+      <p class="service-desc">Reliable datastore systems for persistent player data, leaderboards, and multiplayer sync.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-num">06</div>
+      <i class="ti ti-sparkles service-icon"></i>
+      <div class="service-title">VFX & Polish</div>
+      <p class="service-desc">Custom visual effects, transitions, and micro-interactions that bring your game to life.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-label">Commission packages</div>
+
+  <div class="kit-block">
+    <div class="kit-label">
+      <span class="kit-name">Summit Kit</span>
+      <span class="kit-tag">Mountain & Expedition Games</span>
+      <span class="kit-divider"></span>
+    </div>
+    <div class="tier-grid">
+      <div class="tier-card">
+        <div class="tier-badge">Standard</div>
+        <div class="tier-price">Rp 400K</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Clean scripting</li>
+          <li>Simple custom GUI</li>
+          <li>Basic optimization</li>
+          <li>Mobile support</li>
+          <li>Functional system</li>
+          <li>1× revision</li>
+        </ul>
+        <div class="tier-for">
+          <div class="tier-for-label">Best for</div>
+          <div class="tier-for-text">Checkpoint systems · Stamina · Basic HUD · Spawn control</div>
+        </div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-badge">Menengah</div>
+        <div class="tier-price">Rp 850K</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Advanced scripting</li>
+          <li>Custom GUI design</li>
+          <li>Smooth UI animations</li>
+          <li>Better optimization</li>
+          <li>Modular systems</li>
+          <li>Anti-bug handling</li>
+          <li>Mobile & PC</li>
+          <li>2× revisions</li>
+        </ul>
+        <div class="tier-for">
+          <div class="tier-for-label">Best for</div>
+          <div class="tier-for-text">Leaderboard · Weather system · Route tracking · Inventory</div>
+        </div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-badge">Professional</div>
+        <div class="tier-price">Rp 1.5M</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Full advanced scripting</li>
+          <li>Fully custom UI/UX</li>
+          <li>Professional polish</li>
+          <li>Advanced optimization</li>
+          <li>Datastore systems</li>
+          <li>Multiplayer sync</li>
+          <li>Cross-device responsive</li>
+          <li>Priority support</li>
+          <li>3× revisions</li>
+        </ul>
+        <div class="tier-for">
+          <div class="tier-for-label">Best for</div>
+          <div class="tier-for-text">Full expedition framework · Summit progression · Multiplayer climb</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kit-block">
+    <div class="kit-label">
+      <span class="kit-name">Club Kit</span>
+      <span class="kit-tag">Nightclub & Club Games</span>
+      <span class="kit-divider"></span>
+    </div>
+    <div class="tier-grid">
+      <div class="tier-card">
+        <div class="tier-badge">Standard</div>
+        <div class="tier-price">Rp 700K</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Medium complexity</li>
+          <li>Better UI systems</li>
+          <li>Optimized structure</li>
+          <li>Smooth functionality</li>
+          <li>1× revision</li>
+        </ul>
+        <div class="tier-for">
+          <div class="tier-for-label">Best for</div>
+          <div class="tier-for-text">Door system · Basic DJ booth · Bouncer NPC · Queue system</div>
+        </div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-badge">Menengah</div>
+        <div class="tier-price">Rp 1.3M</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Advanced scripting</li>
+          <li>Custom polished GUI</li>
+          <li>Modular framework</li>
+          <li>Optimization systems</li>
+          <li>Smooth UI/UX</li>
+          <li>Mobile & PC</li>
+          <li>2× revisions</li>
+        </ul>
+        <div class="tier-for">
+          <div class="tier-for-label">Best for</div>
+          <div class="tier-for-text">Music system · VIP rooms · Dance floor · Drink system</div>
+        </div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-badge">Professional</div>
+        <div class="tier-price">Rp 2.3M</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Fully polished systems</li>
+          <li>Advanced optimization</li>
+          <li>Datastore integration</li>
+          <li>Multiplayer sync</li>
+          <li>Professional UI/UX</li>
+          <li>Scalable framework</li>
+          <li>Priority support</li>
+          <li>3× revisions</li>
+        </ul>
+        <div class="tier-for">
+          <div class="tier-for-label">Best for</div>
+          <div class="tier-for-text">Full club framework · Live DJ · Event system · Member ranks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kit-block">
+    <div class="kit-label">
+      <span class="kit-name">Custom Feature Kit</span>
+      <span class="kit-tag">Premium</span>
+      <span class="kit-divider"></span>
+    </div>
+    <div class="tier-grid">
+      <div class="tier-card">
+        <div class="tier-badge">Standard</div>
+        <div class="tier-price">Rp 1M</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Custom mechanics</li>
+          <li>Medium complexity</li>
+          <li>Clean scripting</li>
+          <li>Optimized functionality</li>
+          <li>1× revision</li>
+        </ul>
+      </div>
+      <div class="tier-card">
+        <div class="tier-badge">Menengah</div>
+        <div class="tier-price">Rp 2M</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Advanced custom systems</li>
+          <li>High polish UI/UX</li>
+          <li>Complex logic</li>
+          <li>Optimization handling</li>
+          <li>Modular structure</li>
+          <li>2× revisions</li>
+        </ul>
+      </div>
+      <div class="tier-card">
+        <div class="tier-badge">Professional</div>
+        <div class="tier-price">Rp 3.5M</div>
+        <div class="tier-price-sub">+ depending on complexity</div>
+        <div class="tier-sep"></div>
+        <ul class="tier-features">
+          <li>Full advanced framework</li>
+          <li>AAA-quality polish</li>
+          <li>Fully custom systems</li>
+          <li>Massive optimization</li>
+          <li>Cross-device support</li>
+          <li>Multiplayer sync</li>
+          <li>Scalable architecture</li>
+          <li>Priority development</li>
+          <li>3× revisions</li>
+        </ul>
+        <div class="tier-for">
+          <div class="tier-for-label">Best for</div>
+          <div class="tier-for-text">Massive RPG · Wuxia · Competitive multiplayer · Unique mechanics</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="addons">
+  <div class="section-label">Add-on features</div>
+  <div class="addon-grid">
+    <div class="addon-item">
+      <div class="addon-name">Extra GUI Design</div>
+      <div class="addon-price">+Rp 150K</div>
+    </div>
+    <div class="addon-item">
+      <div class="addon-name">Datastore System</div>
+      <div class="addon-price">+Rp 100K</div>
+    </div>
+    <div class="addon-item">
+      <div class="addon-name">Full Mobile Optimization</div>
+      <div class="addon-price">+Rp 100K</div>
+    </div>
+    <div class="addon-item">
+      <div class="addon-name">Advanced UI Animation</div>
+      <div class="addon-price">+Rp 100K</div>
+    </div>
+    <div class="addon-item">
+      <div class="addon-name">Synced Music System</div>
+      <div class="addon-price">+Rp 150K</div>
+    </div>
+    <div class="addon-item">
+      <div class="addon-name">Custom VFX</div>
+      <div class="addon-price">+Rp 250K</div>
+    </div>
+    <div class="addon-item">
+      <div class="addon-name">Complex Framework</div>
+      <div class="addon-price">+Rp 400K+</div>
+    </div>
+    <div class="addon-item">
+      <div class="addon-name">Future Update Support</div>
+      <div class="addon-price">+Rp 150K</div>
+    </div>
+  </div>
+</section>
+
+<section class="tos">
+  <div class="section-label">Terms of service</div>
+  <div class="tos-grid">
+    <div class="tos-item"><i class="ti ti-credit-card"></i>50% downpayment required before development begins</div>
+    <div class="tos-item"><i class="ti ti-clock"></i>Estimated timeline depends on project complexity</div>
+    <div class="tos-item"><i class="ti ti-edit"></i>Additional revisions beyond included count may incur extra fees</div>
+    <div class="tos-item"><i class="ti ti-ban"></i>No refunds once the project has reached 50% completion</div>
+    <div class="tos-item"><i class="ti ti-adjustments"></i>Final pricing may vary depending on actual project scale</div>
+    <div class="tos-item"><i class="ti ti-refresh"></i>Progress updates will be provided throughout development</div>
+  </div>
+</section>
+
+<section class="cta-band" id="contact">
+  <h2>Start your <em>commission</em></h2>
+  <p>Discuss your vision and get a quote — we typically respond within 24 hours.</p>
+  <div class="cta-band-actions">
+    <button class="btn-gold" onclick="alert('Ganti dengan Discord invite link kamu!')">Join Discord</button>
+    <button class="btn-ghost" onclick="alert('Ganti dengan kontak kamu!')">Send Message</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">512 / Development</div>
+  <div class="footer-meta">
+    <div>Operational: 10.00 – 22.00 WIB</div>
+    <div style="color:#3a3832">© 2026 512 Development. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
