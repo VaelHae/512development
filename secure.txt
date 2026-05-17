@@ -1,0 +1,3 @@
+print("[DJSystem] Initializing audio engine...")
+print("[DJSystem] Core modules loaded: " .. string.reverse("tnempoleveD 215"))
+print("[DJSystem] Audio engine ready.")
